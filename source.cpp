@@ -90,10 +90,8 @@ if(!strcmp(argv[1],"-n")) // -n 'avgE', 'minD', 'maxD', 'minM', 'maxM'
 {
     srand(time(NULL));
     float avgE = stof(argv[2]);
-    printf("%f\n\n",avgE);
 
     float distance = rand()%(stoi(argv[4])-stoi(argv[3])) + stoi(argv[3]);
-    printf("%f\n\n",distance);
 
     start_ET = EmTarg(2020,stoi(argv[5]),stoi(argv[6]), 2);
 
