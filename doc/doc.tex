@@ -1,0 +1,389 @@
+% Authors:
+%
+% Andrej Pavlovič <xpavlo14@vutbr.cz>
+% Tverdokhlib Vladyslav V. <xtverd01@vutbr.cz>
+
+
+\documentclass[a4paper, 11pt]{article}
+
+
+\usepackage[czech]{babel}
+\usepackage{graphicx}
+\graphicspath{{pictures/}}
+\DeclareGraphicsExtensions{.pdf,.png,.jpg}
+\usepackage[utf8]{inputenc}
+\usepackage[left=2cm, top=3cm, text={17cm, 24cm}]{geometry}
+\usepackage{times}
+\usepackage{graphicx}
+\usepackage[hyphens]{url}
+\usepackage[unicode, colorlinks, hypertexnames=false]{hyperref}
+\usepackage[czech, boxed]{algorithm2e}
+\usepackage[perpage]{footmisc}
+\usepackage{indentfirst}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+    urlcolor=black,
+}
+
+\begin{document}
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Title page %%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\begin{titlepage}
+		\begin{center}
+			\includegraphics[width=0.8 \linewidth]{FIT_logo.pdf}
+
+			\vspace{\stretch{0.382}}
+
+			\Huge{Simulační studie} \\
+			\LARGE{\textbf{Prevoditelnost plánovanýh emisií aut v EU do roku 2050}} \\
+			\Large{Tým: AnderTeam} \\
+			\Large{EU Green Deal a jeho dopady na EU ekonomiku}
+
+			\vspace{\stretch{0.618}}
+		\end{center}
+
+		\begin{minipage}{0.5 \textwidth}
+			\Large
+			12. 12. 2021
+		\end{minipage}
+		\hfill
+		\begin{minipage}[r]{0.5 \textwidth}
+			\Large
+			\begin{tabular}{ll}
+			    Andrej Pavlovič & (xpavlo14) \\
+				Tverdokhlib Vladyslav V. & (xtverd01)
+			\end{tabular}
+		\end{minipage}
+	\end{titlepage}
+	\clearpage
+
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Contents %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\pagenumbering{arabic}
+	\setcounter{page}{1}
+	\tableofcontents
+	\clearpage
+
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 1. Introduction %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+	\section{Úvod}
+    Tato práce je v rámci předmětu IMS na FIT VUT. Cílem bylo prostudovat pakt Green Deal, jeho dopad na různé aspekty státu a modelovat proveditelnost ve vybraných zemích.
+    Zaměřili jsme se na plán na snížení emisí CO2 od osobních automobilů v Evropě. Provedli jsme simulační studie k předpovědi proveditelnosti či neproveditelnosti a porovnali s jinými plány snižování emisí. Model se táhne od roku 2020 do roku 2050.
+
+	\subsection{Autori, zdroje}
+	
+	Projekt vypracovali studenti Andrej Pavlovič a Tverdokhlib Vladyslav V.
+    
+    Data byla shromážděna z různých článků, studií, statistik a byla kombinována. Odkazy na materiály jsou v bibliografii. Zdroje byly použity výhradně z internetu. Zaměřili jsme se na rok 2020 jako na skutečný rok, protože Green Deal vznikl v lednu 2019.
+	\subsection{Ověření validity}
+	Platnost modelu byla zkontrolována za běhu. Ověření bylo především prostřednictvím prohlášením plánu Green Deal.
+
+	%%%%%%%%%%%%%%%% 2. Analysis of the topic and used methods / technologies %%%%%%%%%%%%%%%
+	\section{Rozbor témy a~použitých metod/technologií}
+    Existuje Paris agreement, která vstoupila v platnost v roce 2016 a která zejména stanoví opatření ke snížení emisí CO2 od nových osobních aut: 15\% do roku 2025, 37.5\% do roku 2030.
+    
+    Green Deal je plán přijatý v roce 2019, který zavazuje členy EU učinit evropský kontinent klimaticky neutrálním k 2050 roku. Navíc navrhuje zpřísnit snížení emisí nových osobních aut o 55\% do roku 2030 a dokonce o 100\% do roku 2035.
+	\subsection{Fakty}
+    V souladu s Regulation (EU) 2019/631, byl zaveden vzorec pro stanovení cíle emisí CO2 pro jednoho výrobce aut pro daný rok (SPECIFIC EMISSIONS TARGETS FOR PASSENGER CARS).
+    V podstatě jsou v něm konstanty a mění se v závislosti na roce. Jediné, co potřebujeme získat, je \textit{průměrná hmotnost vozu z konkrétního vozového parku za konkretní rok}. Právě výpočty podle tohoto vzorce bude nutné dodržet, aby bylo dosaženo snížení emisí každého vozového parku výrobců. Bude také potřebná \textit{průměrná ujetá vzdálenost za rok}, pro zobrazení objemu co2 v gramech.
+
+    V druhé části modelu budeme vycházet z tendence vývoje automobilového parku konkrétní země. Pak potřebujeme následující údaje: \textit{celkový počet automobilů v zemi}, \textit{objem výroby automobilů ročně} v zemi a \textit{\% snížení vozového parku země každý rok} (7\%).
+	\subsection{Popis použitých postupů/metod/technologií}
+	Když nacházíme \textit{průměrnou hmotnost vozu} a \textit{průměrnou ujetou vzdálenost} použijeme generátor náhodných čísel z rozsahu (od minimální po maximální hodnotu za 10 let podle statistik).
+	
+	Také jsme si vypůjčili určitý koeficient pro vzorec s 95\% pravdivostí.
+
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 3. Concept of model %%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\vspace*{14mm}
+	\section{Koncepce modelu}
+
+	\subsection{Popis konceptuálneho modelu}
+	% \label{section:conceptual_model_desc}
+	PART ONE:
+    
+    \vspace*{3mm}2021, 2025, 2030, 2035 - milestony proveditelnosti. V 1. části máme model implementace v konkrétních milestonech.
+    Díky vzorci budeme počítat Emission Target pro konkrétní zemi na konkrétní rok. 
+    
+    \vspace*{3mm}
+    
+    \begin{itemize}
+    \item Emissions Target = T + a × (M - M0) g/km
+    
+    kde:
+    \vspace*{2mm}
+
+	T = 95 g/km for 2021. 
+	
+	- 80,75 g/km for 2025. 
+	
+	- 42,75 g/km for 2030 (59.4 g/km in Paris agreement).
+	
+	- 0 g/km for 2035.
+	
+	\vspace*{2mm}
+	
+    a = 0.0333 for 2020-2024. 
+    
+    - 0.0214 for 2025-2030 (95\% forecast).
+    
+    \vspace*{2mm}
+    
+    M0 = 1 379,88 kg for 2020-2021
+    
+    - 1 398,50 kg for 2022-2030
+    
+    \vspace*{2mm}
+    
+    M(parameter) = average mass of the cars kg.
+    \end{itemize}
+    
+    \vspace*{3mm}
+    
+    Na základě této hodnoty bude vypočítáno \textit{minimální snížení emisí} v \% a \textit{maximální možné emise CO2 na jednoho ridice} pro každý milestone vzhledem k roku 2020 (nová auta).
+    
+    \vspace*{3mm}
+    
+    \begin{itemize}
+    \item Min. reduction = (1 - (ET / E2020)) * 100 \%
+    
+    kde:
+    \vspace*{2mm}
+    
+    ET = emissions target g/km
+    
+    E2020 = emissions in 2020 g/km
+    
+    \vspace*{3mm}
+    
+    \item Max. CO2 emissions for one car = ET * distance / 1000
+        
+    kde:
+    \vspace*{2mm}
+    
+    ET = emissions target g/km
+    
+    distance = travelled distance km
+    \end{itemize}
+    
+    \vspace*{3mm}
+    
+    Také uvidíme, jak se sníží Emission Target.
+    
+    \vspace*{3mm}
+    
+    \begin{itemize}
+    \item ET reduction = (1 - (ET / start\_ET)) * 100 \%
+        
+    kde:
+    \vspace*{2mm}
+    
+    ET = emissions target g/km
+    
+    start\_ET = ET in 2020 g/km
+    \end{itemize}
+    
+    \vspace*{6mm}
+    
+    PART TWO:
+    
+    \vspace*{3mm}
+    
+    V tomto jsme se pokusili simulovat každoroční snižování objemu emisí, pokud bude nastaven growth rate podílu elektromobilů (hodnota v \%, o kterou se v každém příštím roce by zvýšil podíl elektromobilů).
+    
+        \vspace*{3mm}
+    
+    for(i=1;i\leq30;i++)
+    \{
+    
+        \vspace*{1mm}
+    
+        \quad if(year from 2021 to 2024)
+        
+        \vspace*{1mm}
+        
+            \quad \quad ET(2021)
+            
+        \vspace*{1mm}
+        
+        \quad if(year from 2025 to 2029)
+        
+        \vspace*{1mm}
+        
+            \quad \quad ET(2025)
+            
+        \vspace*{1mm}
+        
+        \quad if(year from 2030 to 2034)
+        
+        \vspace*{1mm}
+        
+            \quad \quad ET(2030)
+            
+        \vspace*{1mm}
+        
+        \quad if(year from 2035)
+        
+        \vspace*{1mm}
+        
+            \quad \quad ET(2035)
+            
+        \vspace*{1mm}
+      \}
+
+        ec\_share = ec\_growth*i;
+        
+        \vspace*{1mm}
+        
+        if(ec\_share gt 1)\{
+        
+        \vspace*{1mm}
+        
+            \quad ec\_share = 1;    
+        
+        \vspace*{1mm}
+        \}
+
+        total\_old\_gascars = total\_old\_gascars * parkreduct;
+        
+        \vspace*{1mm}
+        
+        total\_registered\_gascars += (1-ec\_share) * registered\_cars;
+        
+        \vspace*{1mm}
+    
+        \quad print ( i + 2020: 1 - (((total\_old\_gascars * start\_ET) + (total\_registered\_gascars * ET)) / (total\_gascars * start\_ET)) );
+        
+        \vspace*{1mm}
+        
+        
+        
+    kde:
+    \vspace*{3mm}
+    
+     total\_old\_gascars = total cars in a country.
+     
+     \vspace*{2mm}
+     
+     total\_registered\_gascars = new gasoline cars registered.
+     
+     \vspace*{2mm}
+     
+     registered\_cars = number of registered cars yearly. 
+     
+     \vspace*{2mm}
+     
+     ec\_share = share of electric cars of registered cars yearly.
+     
+     \vspace*{2mm}
+     
+     parkreduct = rate of reduction.
+
+	%%%%%%%%%%%%%%%%%%% 4. Simulation model architecture %%%%%%%%%%%%%%%%%%%%%%%%
+	\section{Architektura simulačního modelu/simulátoru}
+	% \label{section:simulation_model_architecture}
+	
+	Model byl napsán v jazyce C++, standard C++11. Byl použit kompilátor g++
+
+	%%%%%%%%%%%%%%% 5. The principle of simulation experiments and their course %%%%%%%%%%%
+	\section{Podstata simulačních experimentů a~jejich průběh}
+	
+	\subsection{Experimenty}
+	Experimenty boli rozdelené do dvoch častí. Experiment číslo 1 patrí do prvej časti, experimenty 2 a 3 patria do druhej. %TODO <-
+	
+	\subsubsection{Experiment 1}
+	
+    Na základě tohoto experimentu jsme zdůraznili rozdíl v Pařížské dohodě a Zelené dohodě. 
+    
+    Viděli jsme, jak se procento snížení u těchto dvou plánů mění.
+    
+    Také obdržel statistické údaje - maximální emise na nové auto v konkrétním roce. \\ 
+    
+	Spouštel se s parametrami: -n 'avgE', 'minD', 'maxD', 'minM', 'maxM'
+	
+	    \begin{itemize}
+            \item emise 2020 pro Franci
+            \item minimální ujetá vzdálenost
+            \item maximální ujetá vzdálenost
+            \item minimální masa vozdila
+            \item maximální masa vozdila
+        \end{itemize}
+    v tomto pořadí. \\
+    
+	Spuštení: \\
+	
+	\texttt{./source -n 98.47 12223 13802 1293 1337} \\
+	
+	Výsledky (Pre každú tabuľku najprv green deal [HORE], potom Paris agreement [DOLE]):
+	
+	\begin{center}
+        \begin{tabular}{|c|c|c|}
+        \hline
+         Rok & Min. reduction \% & Max. CO2 emissions kg (from new cars) \\ 
+         \hline
+         2021 & 5,37\% & 1166 \\  
+         \hline
+         2025 & 19,59\% & 990,9 \\
+         \hline
+         2030 & 58,18\% & 515,3 \\  
+         \hline\hline
+         2030 & 41,3\% & 723,7 \\  
+         \hline
+         2035 & 100\% & 0 \\
+         \hline
+        \end{tabular}
+    \end{center}
+    
+    \begin{center}
+        \begin{tabular}{|c|c|c|}
+        \hline
+         Rok & ET & ET reduction \% (new cars) \\ 
+         \hline
+         2021 & 93,17 & 0\% \\  
+         \hline
+         2025 & 79,18 & 15,02\% \\
+         \hline
+         2030 & 41,18 & 55,81\% \\  
+         \hline\hline
+         2030 & 57,83 & 37,94\% \\  
+         \hline
+         2035 & 0 & 100\% \\
+         \hline
+        \end{tabular}
+    \end{center}
+    
+    \subsubsection{Experiment 2}
+	
+    V tomto experimentu pozorujeme nárůst procenta snížení oproti roku 2020
+    
+    Spouštel se s parametrami: -g 'growth', 'gascars', 'regcars', 'parkreduct', 'minM', 'maxM'
+    
+	Spuštení: ./source -g 0.1 31380000 1700000 0.93 1293 1337
+	
+	\includegraphics[width=\textwidth]{2exp.PNG}
+	
+	\subsection{Závěry experimentů}
+
+	%%%%%%%%%%%%%%%%% Summary of simulation experiments and conclusion %%%%%%%%%%%%%%%%%%
+	\section{Zhrnutie simulačných experimentov a~záver}
+	Na závěr můžeme potvrdit realizaci plánu pomocí vzorce pro výpočet Emission Target ve Francii.
+	
+	\vspace*{5mm}
+	
+    Vidíme, že rozdíl mezi Pařížskou dohodou a Grean Deal není velký, a to nemá velký vliv na proveditelnost.
+    
+    \vspace*{5mm}
+    
+    Podle posledního diagramu vidíme, že pokud zavedeme pouze elektromobily rovnoměrně, tak do roku 2050 budeme mít 88\% snížení emisí CO2 oproti roku 2020.
+	
+                                                    
+
+	
+	
+	
+	%%%%%%%%%%%%%%%%% Bibliography %%%%%%%%%%%%%%%%%%
+
+	\clearpage
+	\nocite{*}
+	\renewcommand{\refname}{Literatura}
+	\bibliography{bibliography}
+	\bibliographystyle{czechiso}
+\end{document}
