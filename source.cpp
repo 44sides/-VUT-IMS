@@ -60,9 +60,9 @@ void print(int year, float avgE, float start_ET, float distance,int minM, int ma
     float ET = EmTarg(year,minM,maxM, 2);
 
     printf("ET - ET reduction (new cars)\n");
-    printf("%d: %f - %f%\n", year, ET, (1-(ET/start_ET))*100);
+    printf("%d: %f - %f%%\n", year, ET, (1-(ET/start_ET))*100);
             
-    printf("Min. reduction % - Max. CO2 emissions kg (from new cars)\n");
+    printf("Min. reduction %% - Max. CO2 emissions kg (from new cars)\n");
     printf("%d: %f - %fkg\n", year, (1-(ET/avgE))*100, ET*distance/1000);
 
     if(year == 2030)
@@ -71,9 +71,9 @@ void print(int year, float avgE, float start_ET, float distance,int minM, int ma
         ET = EmTarg(year,minM,maxM, 1);
 
         printf("ET - ET reduction (new cars)\n");
-        printf("%d: %f - %f%\n", year, ET, (1-(ET/start_ET))*100);
+        printf("%d: %f - %f%%\n", year, ET, (1-(ET/start_ET))*100);
                 
-        printf("Min. reduction % - Max. CO2 emissions kg (from new cars)\n");
+        printf("Min. reduction %% - Max. CO2 emissions kg (from new cars)\n");
         printf("%d: %f - %fkg\n", year, (1-(ET/avgE))*100, ET*distance/1000);
     }
 
