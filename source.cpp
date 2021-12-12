@@ -142,7 +142,11 @@ if(!strcmp(argv[1],"-g")) // -g 'growth', 'gascars', 'regcars'
         if(year >= 2030 && year < 2035)
             ET = EmTarg(2030);
         if(year >= 2035)
-            ET = EmTarg(2035);  
+            ET = EmTarg(2035);
+
+        ec_share = ec_growth*i;
+        if(ec_share > 1)
+            ec_share = 1;    
 
         total_old_gascars = total_old_gascars*parkreduction;
         total_registered_gascars += (1-ec_share)*registered_cars;
